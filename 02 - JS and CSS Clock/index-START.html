@@ -62,12 +62,39 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform: rotate(40deg);
+      transform-origin: right;
     }
 
   </style>
-
   <script>
+    // get current time
+    var today = new Date();
+    // initialze hour,min and second hands
+    var secondDegree = today.getSeconds()*6+90;
+    var minDegree = today.getMinutes()*6+90;
+    var hourDegree = today.getHours()*30+90;
+    var hands = document.getElementsByClassName('hand');
+    hands[0].style.transform = `rotate(${hourDegree}deg)`;
+    hands[1].style.transform = `rotate(${minDegree}deg)`;
+    hands[2].style.transform = `rotate(${secondDegree}deg)`
 
+    var moveHand = function() {
+      secondDegree += 6;
+      var hands = document.getElementsByClassName('hand');
+      hands[2].style.transform = `rotate(${secondDegree}deg)`;
+      if (secondDegree%360 === 90) {
+        minDegree += 6;
+        hands[1].style.transform = `rotate(${minDegree}deg)`;
+      }
+      if (minDegree%360 === 90) {
+        hourDegree += 30;
+        hands[0].style.transform = `rotate(${hourDegree}deg)`;
+      }
+    }
+    // rotate second hand from the center of the clock every second
+    setInterval(moveHand, 1000)
+    // window.addEventListener()
 
   </script>
 </body>
