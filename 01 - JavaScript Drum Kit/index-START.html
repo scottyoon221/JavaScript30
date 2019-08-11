@@ -58,9 +58,28 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  var transitionEndCallback = function(e) {
+    if(e.propertyName !== "transform") return;
+    e.target.classList.remove('playing');
+  }
+
+  var playSound = function(e) {
+    var audio;
+    // select  box div then add animation
+    var key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+    key.classList.add('playing');
+    // select sound div then play sound
+    audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    audio.currentTime = 0;
+    audio.play();
+  }
+  window.addEventListener("keydown", playSound);
+  //add event listener for transition
+  var keys = document.querySelectorAll('div[class="key"]');
+  keys.forEach(function(key) {
+    key.addEventListener("transitionend", transitionEndCallback);
+  })
 
 </script>
-
-
 </body>
 </html>
