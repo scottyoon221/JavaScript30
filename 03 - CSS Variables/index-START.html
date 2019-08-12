@@ -21,10 +21,14 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
-
     /*
       misc styles, nothing to do with CSS variables
     */
+    :root {
+      --color: yellow;
+      --spacing: 10px;
+      --blur: 10px;
+    }
 
     body {
       text-align: center;
@@ -35,6 +39,15 @@
       font-size: 50px;
     }
 
+    img {
+      border: var(--spacing) solid var(--color);
+      -webkit-filter: blur(var(--blur)); ;
+    }
+
+    .hl {
+      color: var(--color);
+    }
+
     .controls {
       margin-bottom: 50px;
     }
@@ -43,9 +56,26 @@
       width: 100px;
     }
   </style>
-
   <script>
+    let root = document.documentElement;
+    var colorInput = document.querySelector('#base')
+    var spacingInput = document.querySelector('#spacing');
+    var blurInput = document.querySelector('#blur');
+    //set initial color
+    root.style.setProperty('--color', document.querySelector('#base').value);
+    //change color
+    colorInput.addEventListener('input', e => {
+      root.style.setProperty('--color', e.target.value);
+    });
+    //change spacing
+    spacingInput.addEventListener('input', e => {
+      root.style.setProperty('--spacing', e.target.value+e.target.dataset.sizing);
+    });
+    //change blur
+    blurInput.addEventListener('input', e => {
+      console.log(e);
+      root.style.setProperty('--blur', e.target.value+e.target.dataset.sizing);
+    });
   </script>
-
 </body>
 </html>
