@@ -16,7 +16,47 @@
   </form>
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+var cityInfo = [];
+function loadCity() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      cityInfo = JSON.parse(this.responseText);
+    }
+  };
+  xhttp.open("GET", endpoint, true);
+  xhttp.send();
+}
 
+var displayResult = function (e) {
+  //filter cities by user's search query
+  var filteredCities = cityInfo.filter(city => {
+    return city.city.toLowerCase().includes(e.target.value.toLowerCase()) || city.state.toLowerCase().includes(e.target.value.toLowerCase());
+  })
+
+  //clear out lists
+  var cityList = document.querySelector('.suggestions');
+  while (cityList.firstChild) {
+      cityList.removeChild(cityList.firstChild);
+  }
+
+  //display filtered cities
+  filteredCities.forEach(city => {
+    var node = document.createElement("li");
+    node.innerHTML = `${city.city} , ${city.state}`;
+    var reg = new RegExp(e.target.value,"gi");
+    if (e.target.value !== '') {
+      node.innerHTML = node.innerHTML.replace(reg, `<span class="hl">${e.target.value}</span>`);
+    }
+    node.innerHTML = `<span class="name">${node.innerHTML}</span>`;
+    node.innerHTML += `<span class="population">${parseInt(city.population).toLocaleString('en', {useGrouping:true})}</span>`
+    cityList.appendChild(node);
+  })
+}
+
+loadCity();
+var input = document.querySelector('input')
+input.addEventListener('keyup', displayResult)
 </script>
 </body>
 </html>
