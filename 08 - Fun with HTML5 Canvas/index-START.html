@@ -7,8 +7,49 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
-</script>
+  var isIncrease = false;
+  var isMouseMove = false;
+  var hue = 15;
+  var lastX = 0;
+  var lastY = 0;
+  var c = document.getElementById("draw");
+  var ctx = c.getContext("2d");
+  c.width = window.innerWidth;
+  c.height = window.innerHeight;
+  ctx.strokeStyle = '#BADA55';
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  ctx.lineWidth = 100;
+  var draw = function(e) {
+    if(isMouseMove) {
+      hue++;
+      if (hue >= 360) {
+        hue = 0;
+      }
+      ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+      ctx.beginPath();
 
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+
+      if(ctx.lineWidth === 1) {
+        isIncrease = true
+      } else if (ctx.lineWidth === 100) {
+        isIncrease = false;
+      }
+      isIncrease ? ctx.lineWidth++ : ctx.lineWidth--;
+    }
+  }
+  //on mouse down, draw
+  c.addEventListener("mousemove", draw);
+  c.addEventListener("mousedown", (e) => {
+    isMouseMove = true;
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+  });
+  c.addEventListener("mouseup", () => isMouseMove = false);
+</script>
 <style>
   html, body {
     margin: 0;
