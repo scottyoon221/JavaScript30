@@ -96,6 +96,44 @@
   </div>
 
 <script>
+  //add check mark
+  var checkboxes = document.querySelectorAll(`input`);
+  var currentIndex = false;
+  // in case a user uncheck current check mark, we need to reterive previously checked mark
+  var prevIndex = [];
+  var isShift = false;
+
+  console.log('hello');
+  var toggleCheck = function() {
+    //when shift key is down and mouse is clicked && does previous check mark exist?
+    if (isShift && prevIndex !== []) {
+      //is prev check mark index smaller than the current?
+      if (prevIndex[prevIndex.length-1] < currentIndex) {
+        // set initial value to first check mark index + 1 and end to current checkmark index
+        i = prevIndex[prevIndex.length-1] + 1;
+        last = currentIndex;
+      } else {
+        // set initial value to current checkmark index and end to first check mark index + 1
+        i = currentIndex + 1;
+        last = prevIndex[prevIndex.length-1];
+      }
+      //add check mark from first check mark to current check mark
+      for ( ;i < last; i++) {
+        checkboxes[i].checked = true;
+      }
+    }
+    if (checkboxes[currentIndex].checked === false) {
+      prevIndex.pop();
+    } else {
+      prevIndex.push(currentIndex);
+    }
+  }
+  window.addEventListener("keydown", (e => e.keyCode === 16 ? isShift = true : isShift = false));
+  window.addEventListener("keyup", (() => isShift = false));
+  checkboxes.forEach((checkbox, index) => checkbox.addEventListener("click", (() => {
+    currentIndex = index;
+    toggleCheck();
+  })));
 </script>
 </body>
 </html>
