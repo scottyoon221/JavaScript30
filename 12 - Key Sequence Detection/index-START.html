@@ -7,6 +7,23 @@
 </head>
 <body>
 <script>
+  var pressed = [];
+  var secret = "scott"
+
+  window.addEventListener("keypress", (e) => {
+    console.log(e);
+    pressed.push(e.key);
+    console.log(pressed.join(""));
+    if (pressed.join("").includes(secret)) {
+      cornify_add();
+    }
+    if (pressed.length === secret.length) {
+      pressed.shift();
+    }
+  })
+
+
+
 </script>
 </body>
 </html>
