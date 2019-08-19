@@ -28,7 +28,49 @@
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  const items = JSON.parse(window.localStorage.getItem('items')) || [];
+  var initialState =  true;
+  function addTapas(e) {
+    if(initialState) {
+      itemsList.querySelector('li').remove();
+      initialState=false;
+    }
+    e.preventDefault();
+    displayItem({"text":e.target[0].value, "done":false})
+    items.push({"text":e.target[0].value, "done":false});
+    window.localStorage.setItem("items", JSON.stringify(items));
+    e.target[0].value = '';
+  }
+
+  function toggleCheckmark(e) {
+    e.target.toggleAttribute("checked", "");
+    if (e.target.id != "") {
+      items[parseInt(e.target.id.substring(4))].done = !items[parseInt(e.target.id.substring(4))].done
+      window.localStorage.setItem("items", JSON.stringify(items));
+    }
+  }
+
+  function initTapas() {
+    if(items.length !== 0) {
+      itemsList.querySelector('li').remove();
+      initialState=false;
+      for(var i = 0; i < items.length; i++) {
+        displayItem(items[i]);
+      }
+    }
+  }
+
+  function displayItem(item) {
+    var node = document.createElement("li");
+    const itemIndex = `item${itemsList.childElementCount}`
+    item.done ? node.innerHTML = `<input id=${itemIndex} type="checkbox" checked>` : node.innerHTML = `<input id=${itemIndex} type="checkbox" >`
+    node.innerHTML += `<label for=${itemIndex}>${item.text}</label>`
+    itemsList.appendChild(node);
+  }
+  //event listener
+  window.addEventListener("load", initTapas);
+  itemsList.addEventListener("click", toggleCheckmark);
+  addItems.addEventListener("submit", addTapas);
 
 </script>
 
