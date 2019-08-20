@@ -35,6 +35,11 @@
   </style>
 
 <script>
+  var shadow = document.querySelector(`h1`);
+  function moveShadow (e) {
+    shadow.style.textShadow = `${(e.clientX - window.innerWidth/2)*.3}px ${e.clientY - window.innerHeight/2}px 0px rgba(255, 0, 255, 0.7), ${(e.clientX - window.innerWidth/2)*(-.3)}px ${e.clientY - window.innerHeight/2}px 0px rgba(0, 255, 255, 0.7), ${e.clientY - window.innerHeight/2}px ${(e.clientX - window.innerWidth/2)*(-.3)}px 0px rgba(0, 255, 0, 0.7), ${window.innerHeight/2 - e.clientY}px ${(e.clientX - window.innerWidth/2)*(.3)}px 0px rgba(0, 0, 255, 0.7)`;
+  }
+  window.addEventListener("mousemove", moveShadow);
 </script>
 </body>
 </html>
