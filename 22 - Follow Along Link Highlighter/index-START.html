@@ -24,9 +24,24 @@
       <p>Esse quibusdam, ad, ducimus cupiditate <a href="">nulla</a>, quae magni odit <a href="">totam</a> ut consequatur eveniet sunt quam provident sapiente dicta neque quod.</p>
       <p>Aliquam <a href="">dicta</a> sequi culpa fugiat <a href="">consequuntur</a> pariatur optio ad minima, maxime <a href="">odio</a>, distinctio magni impedit tempore enim repellendus <a href="">repudiandae</a> quas!</p>
     </div>
-
+    <!-- <span class="highlight" style="width: 60.7031px; height: 28px; transform: translate(767.4px, 100px);"></span> -->
   <script>
     // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+    var links = document.querySelectorAll('a');
+    var wrapper = document.querySelector('.wrapper');
+    var span = document.createElement('span');
+    span.setAttribute('class', 'highlight');
+    document.body.appendChild(span);
+
+    function moveHighlight () {
+      console.log(this.getBoundingClientRect(), this.clientTop);
+      var coord = this.getBoundingClientRect();
+      console.log(coord.width);
+      span.style.transform = `translate(${window.scrollX + coord.left}px, ${window.scrollY + coord.top}px)`;
+      span.style.width = `${coord.width}px`;
+      span.style.height = `${coord.height}px`;
+    }
+    links.forEach(link => link.addEventListener('mouseover', moveHighlight));
   </script>
 </body>
 </html>
