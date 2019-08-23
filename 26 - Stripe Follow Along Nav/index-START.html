@@ -79,11 +79,11 @@
     box-sizing: border-box;
     font-family: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
   }
-  
+
   *, *:before, *:after {
     box-sizing: inherit;
   }
-  
+
   body {
     margin: 0;
     min-height: 100vh;
@@ -149,7 +149,7 @@
   .trigger-enter-active .dropdown {
     opacity: 1;
   }
-  
+
   .dropdownBackground {
     width: 100px;
     height: 100px;
@@ -218,8 +218,31 @@
   .button[href*=facebook] { background: #3B5998; }
   .button[href*=courses] { background: #ffc600; }
 </style>
-
 <script>
+  var items = document.querySelectorAll(`.cool > li`);
+  var dropdown = document.querySelector(`.dropdownBackground`);
+
+
+  function moveDropdown() {
+    dropdown.classList.add('open');
+    coords = this.getBoundingClientRect();
+    this.classList.add('trigger-enter');
+    setTimeout(() => this.classList.contains('trigger-enter') && this.classList.add('trigger-enter-active'), 150);
+
+    list = this.childNodes[3].getBoundingClientRect()
+    dropdown.style.transform = `translate(${list.left}px, ${this.childNodes[1].getBoundingClientRect().top}px)`
+    dropdown.style.width = `${list.width}px`;
+    dropdown.style.height = `${list.height}px`;
+  }
+
+  function mouseLeaveHandle () {
+    this.classList.remove("trigger-enter-active");
+    this.classList.remove("trigger-enter");
+    dropdown.classList.remove('open');
+  }
+
+  items.forEach(item => item.addEventListener('mouseenter', moveDropdown))
+  items.forEach(item => item.addEventListener('mouseleave', mouseLeaveHandle));
 </script>
 
 </body>
