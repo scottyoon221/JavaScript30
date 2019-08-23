@@ -35,6 +35,25 @@
   </div>
 
 <script>
+    var itemsDiv = document.querySelector(`div.items`);
+    var isMousedown = false;
+    var initPosition = 0;
+    function dragItems (e) {
+      if(!isMousedown) return;
+      e.preventDefault();
+      console.log(e.clientX - initPosition);
+      delta = e.clientX - initPosition;
+      initPosition += delta;
+      this.scrollLeft += delta;
+    }
+
+    itemsDiv.addEventListener('mousemove', dragItems);
+    itemsDiv.addEventListener('mousedown', (e) => {isMousedown = true; initPosition = e.clientX - itemsDiv.offsetLeft; itemsDiv.classList.add('active');});
+    window.addEventListener('mouseup', () => {isMousedown = false; itemsDiv.classList.remove('active')});
+    itemsDiv.addEventListener('mouseleave', () => {
+      isMouseDown = false;
+      itemsDiv.classList.remove('active');
+    });
 </script>
 
   </body>
