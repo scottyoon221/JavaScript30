@@ -15,6 +15,22 @@
   </div>
 
 <script>
+  var speed = document.querySelector(`.speed`);
+  var speedBar = document.querySelector(`.speed-bar`);
+  var video = document.querySelector(`video`);
+  function controlPlaySpeed (e) {
+    //image should follow the mouse pointer
+    //calculate .spped-bar height
+    var ratio = (e.offsetY / this.getBoundingClientRect().height);
+    var percentage = ratio * 100;
+    speedBar.style.height = `${percentage}%`
+
+    //change the play rate
+    video.playbackRate = (3.93*ratio+0.07).toFixed(2);
+    //change then play rate display number
+    speedBar.textContent = `${(3.93*ratio+0.07).toFixed(2)}x`;
+  }
+  speed.addEventListener('mousemove', controlPlaySpeed);
 </script>
 </body>
 </html>
